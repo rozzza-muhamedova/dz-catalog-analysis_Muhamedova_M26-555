@@ -76,6 +76,25 @@ def count_long_movies(movies, threshold=120):
             count += 1
     return count
 
+def normalize_title(title):
+    """Приводит строку к формату Title Case."""
+    new_word_list = []
+    for word in title.split():
+        new_word_list.append(word[0].upper() + word[1:])
+    return " ".join(new_word_list)
+
+def make_slug(title):
+    """Превращает нормализованное название в «слаг»."""
+    return title.lower().replace(" ", "-")
+
+def format_report_line(movie):
+    """Возвращающую единую строку с описанием фильма"""
+    return (
+        f'"{movie["title"]}" ({movie["year"]}) — {movie["rating"]}/10, '
+        f'{duration_in_hours(movie["duration_min"])}, '
+        f'жанры: {", ".join(sorted(movie["genres"]))}'
+    )
+
 if __name__ == "__main__":
 
     for movie in movies:
@@ -95,11 +114,17 @@ if __name__ == "__main__":
     minutes = 120
     rating = 4
     year = 2019
+    title = "silent hours"
     print(average_rating(movies))
     print(catalog_age_stats(movies, current_year=2026))
     print(duration_in_hours(minutes))
     print(rating_tier(rating))
     print(decade_label(year))
     print(count_long_movies(movies, threshold=120))
+    print(normalize_title(title))
+    title = normalize_title(title)
+    print(make_slug(title))
+    movie = movies[7]
+    print(format_report_line(movie))
 
 
