@@ -27,17 +27,17 @@ movies = [
 def average_rating(movies):
     """Считает среднюю оценку по каталогу."""
     summa = 0
-    for i in movies:
-        summa += i['rating']
+    for movie in movies:
+        summa += movie['rating']
     return round(summa / len(movies), 1)
 
 def catalog_age_stats(movies, current_year=2026):
     """Возвращает (самый старый фильм в годах, самый новый фильм в годах, среднее)."""
-    min_age = 10000
+    min_age = float("inf")
     max_age = 0
     summa = 0
-    for i in movies:
-        age = current_year - i['year']
+    for movie in movies:
+        age = current_year - movie['year']
         summa += age
         if age >= max_age:
             max_age = age
@@ -68,13 +68,38 @@ def decade_label(year):
         case _:
             return "старые"
 
+def count_long_movies(movies, threshold=120):
+    """Cчитает количество фильмов длиннее threshold."""
+    count = 0
+    for movie in movies:
+        if movie["duration_min"] > threshold:
+            count += 1
+    return count
 
-    
-minutes = 120
-rating = 4
-year = 2019
-print(average_rating(movies))
-print(catalog_age_stats(movies, current_year=2026))
-print(duration_in_hours(minutes))
-print(rating_tier(rating))
-print(decade_label(year))
+if __name__ == "__main__":
+
+    for movie in movies:
+        if "comedy" in movie["genres"]:
+            continue
+        print(movie["title"])
+
+    i = 0
+    while i < len(movies):
+        if movies[i]["rating"] > 9:
+            print(movies[i]["title"])
+            break
+        i += 1
+    else:
+        print("Шедевров не найдено")
+
+    minutes = 120
+    rating = 4
+    year = 2019
+    print(average_rating(movies))
+    print(catalog_age_stats(movies, current_year=2026))
+    print(duration_in_hours(minutes))
+    print(rating_tier(rating))
+    print(decade_label(year))
+    print(count_long_movies(movies, threshold=120))
+
+
