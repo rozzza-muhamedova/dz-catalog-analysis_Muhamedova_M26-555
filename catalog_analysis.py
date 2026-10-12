@@ -48,8 +48,33 @@ def catalog_age_stats(movies, current_year=2026):
 def duration_in_hours(minutes):
     """Переводит минуты в часы в формате "Nч Mм"."""
     return str(minutes // 60) + 'ч' + ' ' + str(minutes % 60) + 'м'
+
+def rating_tier(rating):
+    """Возвращает по оценке категорию."""
+    if rating >= 9:
+        return "шедевр"
+    elif rating >= 7:
+        return "хорошо"
+    else:
+        return "средне" if rating >= 5 else "слабо"
+
+def decade_label(year):
+    """Возвращает по году метку."""
+    match year:
+        case _ if year > 2020:
+            return "новые"
+        case _ if year >= 2015:
+            return "недавние"
+        case _:
+            return "старые"
+
+
     
 minutes = 120
+rating = 4
+year = 2019
 print(average_rating(movies))
 print(catalog_age_stats(movies, current_year=2026))
 print(duration_in_hours(minutes))
+print(rating_tier(rating))
+print(decade_label(year))
