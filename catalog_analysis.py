@@ -95,6 +95,26 @@ def format_report_line(movie):
         f'жанры: {", ".join(sorted(movie["genres"]))}'
     )
 
+def get_rating(movie):
+    """Вспомогательная функия возвращает рейтинг фильма."""
+    return movie["rating"]
+
+def titles_sorted_by_rating(movies):
+    """Возвращает список названий фильмов, отсортированных по убыванию рейтинга."""
+    movies_sorted = sorted(movies, key=get_rating, reverse=True)
+    list_movies_sorted = []
+    for movie in movies_sorted:
+        list_movies_sorted.append(movie["title"])
+    return list_movies_sorted
+
+def top_n_by_rating(movies, n=3):
+    """Возвращает список из n кортежей (title, rating) — топ по рейтингу."""
+    movies_sorted = sorted(movies, key=get_rating, reverse=True)
+    lst_movies_top_n = []
+    for i in range(n):
+        lst_movies_top_n.append((movies_sorted[i]["title"], movies_sorted[i]["rating"]))
+    return lst_movies_top_n
+
 if __name__ == "__main__":
 
     for movie in movies:
@@ -126,5 +146,11 @@ if __name__ == "__main__":
     print(make_slug(title))
     movie = movies[7]
     print(format_report_line(movie))
+    print()
+    print(titles_sorted_by_rating(movies))
+    print()
+    print(movies)
+    print()
+    print(top_n_by_rating(movies, n=3))
 
 
