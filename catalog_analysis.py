@@ -1,5 +1,6 @@
 import math
 
+#Исходные данные
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
      "rating": 8.6, "duration_min": 155, 
@@ -131,6 +132,21 @@ def actor_filmography(movies):
                 actor_filmography.setdefault(actor, []).append(movie["title"])
     return actor_filmography
 
+def all_genres(movies):
+    """Возвращает множество всех уникальных жанров каталога."""
+    all_genres = set()
+    for movie in movies:
+        all_genres |= movie["genres"]
+    return all_genres
+
+def common_actors(movie1, movie2):
+    """Возвращает множество актеров, снимавшихся в обоих фильмах."""
+    return set(movie1["actors"]) & set(movie2["actors"])
+
+def genres_only_in_one(movies_a, movies_b):
+    """Возвращает жанры, встречающиеся в movies_a, но не встречающиеся в movies_b."""
+    return all_genres(movies_a) - all_genres(movies_b)
+    
 
 if __name__ == "__main__":
 
@@ -184,5 +200,13 @@ if __name__ == "__main__":
     print(actor_filmography(movies))
     print()
     print(movies_rating_above_avg)
+    print()
+    print(all_genres(movies))
+    print()
+    print(common_actors(movies[0], movies[3]))
+    print()
+    print(genres_only_in_one(movies[5:6], movies[:5]))
+
+    
 
 
