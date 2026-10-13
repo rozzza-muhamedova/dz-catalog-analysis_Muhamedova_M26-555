@@ -146,7 +146,12 @@ def common_actors(movie1, movie2):
 def genres_only_in_one(movies_a, movies_b):
     """Возвращает жанры, встречающиеся в movies_a, но не встречающиеся в movies_b."""
     return all_genres(movies_a) - all_genres(movies_b)
-    
+
+def iter_high_rated(movies, min_rating=8.0):
+    """Функция-генератор отдает фильмы с рейтингом не ниже min_rating."""
+    for movie in movies:
+        if movie["rating"] >= min_rating:
+            yield movie
 
 if __name__ == "__main__":
 
@@ -172,6 +177,11 @@ if __name__ == "__main__":
                                for movie in movies 
                                if movie["rating"] > avg
     }
+
+    for movie in iter_high_rated(movies, min_rating=8.0):
+        print(format_report_line(movie))
+    
+    dur_7 = sum(movie["duration_min"] for movie in movies if movie["rating"] > 7)
 
     minutes = 120
     rating = 4
@@ -206,7 +216,5 @@ if __name__ == "__main__":
     print(common_actors(movies[0], movies[3]))
     print()
     print(genres_only_in_one(movies[5:6], movies[:5]))
-
-    
-
-
+    print()
+    print(dur_7)
