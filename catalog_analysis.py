@@ -115,13 +115,32 @@ def top_n_by_rating(movies, n=3):
         lst_movies_top_n.append((movies_sorted[i]["title"], movies_sorted[i]["rating"]))
     return lst_movies_top_n
 
+def count_by_genre(movies):
+    """Возвращаюет словарь {жанр: количество фильмов}."""
+    genres_stat = {}
+    for movie in movies:
+        for genre in movie["genres"]:
+            genres_stat[genre] = genres_stat.get(genre, 0) + 1
+    return genres_stat
+
+def actor_filmography(movies):
+    """Возвращает словарь {актер: [список названий фильмов]}."""
+    actor_filmography = {}
+    for movie in movies:
+            for actor in movie["actors"]:
+                actor_filmography.setdefault(actor, []).append(movie["title"])
+    return actor_filmography
+
+
 if __name__ == "__main__":
 
+    #нахождение всех комедийных фильмов
     for movie in movies:
         if "comedy" in movie["genres"]:
             continue
         print(movie["title"])
 
+    #нахождение первого шедевра из списка
     i = 0
     while i < len(movies):
         if movies[i]["rating"] > 9:
@@ -130,6 +149,13 @@ if __name__ == "__main__":
         i += 1
     else:
         print("Шедевров не найдено")
+
+    #генератор словаря c фильмами с рейтингом выше среднего
+    avg = average_rating(movies)
+    movies_rating_above_avg = {movie["title"]: movie["rating"] 
+                               for movie in movies 
+                               if movie["rating"] > avg
+    }
 
     minutes = 120
     rating = 4
@@ -152,5 +178,11 @@ if __name__ == "__main__":
     print(movies)
     print()
     print(top_n_by_rating(movies, n=3))
+    print()
+    print(count_by_genre(movies))
+    print()
+    print(actor_filmography(movies))
+    print()
+    print(movies_rating_above_avg)
 
 
